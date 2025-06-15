@@ -1,0 +1,19 @@
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# Temporary files
+*.log
+*.tsbuildinfo
+
+# IDE-specific files
+.vscode/
+.DS_Store
+
+# Tailwind CSS cache
+.tailwind/
