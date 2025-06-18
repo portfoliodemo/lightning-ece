@@ -1,5 +1,7 @@
-import { Routes } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
 
@@ -15,7 +17,7 @@ function App() {
         {/* Define your routes here */}
         {/* Example: */}
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<Login />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   )
