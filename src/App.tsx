@@ -19,7 +19,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
         </Route>
-        <Route path="*" element={<div className="text-red-500">404 Not Found</div>} />
+        <Route path="*" element={<div className="text-red-500">Lightning has not struck here! 404 Not Found</div>} />
       </Routes>
     </>
   )
