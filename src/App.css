@@ -4,3 +4,9 @@
   padding: 2rem;
   text-align: center;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+ 
