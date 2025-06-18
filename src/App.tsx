@@ -1,3 +1,4 @@
+import { Routes } from 'react-router-dom'
 import './App.css'
 
 function App() {
@@ -9,6 +10,13 @@ function App() {
           Lightning ECE is working!
         </h1>
       </div>
+
+      <Routes>
+        {/* Define your routes here */}
+        {/* Example: */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<Login />} />
+      </Routes>
     </>
   )
 }
