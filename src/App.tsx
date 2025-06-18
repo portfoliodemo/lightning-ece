@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Layout from './layout/Layout';
 
 function App() {
 
@@ -14,10 +15,11 @@ function App() {
       </div>
 
       <Routes>
-        {/* Define your routes here */}
-        {/* Example: */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+        <Route path="*" element={<div className="text-red-500">404 Not Found</div>} />
       </Routes>
     </>
   )
