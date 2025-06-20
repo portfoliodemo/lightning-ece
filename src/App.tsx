@@ -3,6 +3,7 @@ import './App.css'
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from './layout/Layout';
+import Signup from './pages/Signup';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Route>
         <Route path="*" element={<div className="text-red-500">Lightning has not struck here! 404 Not Found</div>} />
       </Routes>

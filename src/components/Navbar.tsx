@@ -3,14 +3,14 @@
 // src/components/Navbar.tsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react'; // optional icon library
+import { Logs, X } from 'lucide-react'; // optional icon library
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="nav-header max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-blue-600">
           <Link to="/">Lightning ECE</Link>
         </h1>
@@ -31,7 +31,7 @@ export default function Navbar() {
           onClick={() => setMenuOpen(prev => !prev)}
           aria-label="Toggle menu"
         >
-          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {menuOpen ? <X className="w-6 h-6" /> : <Logs className="w-6 h-6" />}
         </button>
       </div>
 
