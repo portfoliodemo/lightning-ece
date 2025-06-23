@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
+import { Zap } from "lucide-react"; 
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200">
-      <h1 className="text-5xl font-bold text-green-700">
-        Welcome to Lightning ECE!
+    <div>
+      <h1>
+        Welcome to Lightning <Zap /> ECE!
       </h1>
-      <Link to="/login" className="text-blue-500 underline">Login</Link>
-      <Link to="/signup" className="text-blue-400 underline">Signup</Link>
+      <section>
+        <h2>Connecting Daycares with Early Childhood Educators since 2025!</h2>
+      </section>
+      <div className="home-links">
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </div>
     </div>
   );
 }

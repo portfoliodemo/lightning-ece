@@ -1,13 +1,88 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Signup() {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'ECE' | 'Owner'>('ECE');
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200">
-      <h1 className="text-5xl font-bold text-green-700">
-        Signup to Lightning ECE!
+    <div>
+      <h1>
+        Lightning ECE Signup Form
       </h1>
-      <Link to="/login" className="text-blue-500 underline">Login</Link>
-      <Link to="/signup" className="text-blue-400 underline">Signup</Link>
+      <div className="min-h-screen flex justify-center items-center bg-gray-50 px-4">
+        <div className="max-w-md w-full bg-white p-6 rounded-md shadow-md">
+          <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Create an Account</h1>
+          <form className="signup-form">
+            <div className="mb-4">
+            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+              Full Name: 
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email: 
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password: 
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+              Role: 
+            </label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value as 'ECE' | 'Owner')}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="ECE">Early Childhood Educator</option>
+              <option value="Owner">Daycare Owner</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Sign Up
+          </button>
+          <p className="mt-4 text-sm text-gray-600 text-center">
+            Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
+          </p>
+          </form>
+        </div>
+      </div>
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Signup</Link>
     </div>
   );
 }
