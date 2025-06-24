@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 export default function ChildcareCentreDashboard() {
   const currentUserJSON = localStorage.getItem("currentUser");
   const currentUser = currentUserJSON ? JSON.parse(currentUserJSON) : null;
+  const navigate = useNavigate();
 
   if (!currentUser) {
     // Redirect to login if no user is logged in
-    window.location.href = "/login";
+    navigate("/login");
     return null;
   }
 
