@@ -4,22 +4,20 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from './layout/Layout';
 import Signup from './pages/Signup';
+import ChildcareCentreDashboard from './pages/Childcare-Centre-Dashboard';
+import ECEDashboard from './pages/ECE-Dashboard';
 
 function App() {
 
   return (
     <>
-      {/* <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200">
-        <h1 className="text-5xl font-bold text-green-700">
-          Lightning ECE is working!
-        </h1>
-      </div> */}
-
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="childcare-centre-dashboard" element={<ChildcareCentreDashboard />} />
+          <Route path="ece-dashboard" element={<ECEDashboard />} />
         </Route>
         <Route path="*" element={<div className="text-red-500">Lightning has not struck here! 404 Not Found</div>} />
       </Routes>

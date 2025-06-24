@@ -5,7 +5,7 @@ export default function Signup() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<'ECE' | 'Owner'>('ECE');
+  const [role, setRole] = useState<'ECE' | 'Childcare Centre'>('ECE');
 
   const handleSubmit = () => (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,7 +113,7 @@ export default function Signup() {
             <label htmlFor="role" className="block text-sm font-medium text-gray-700">
               Role: 
             </label>
-            <select
+            {/* <select
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value as 'ECE' | 'Owner')}
@@ -121,31 +121,26 @@ export default function Signup() {
             >
               <option value="ECE">Early Childhood Educator</option>
               <option value="Owner">Daycare Owner</option>
-            </select>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Account Type
+            </select> */}
+            <div className="flex gap-4">
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  value="ECE"
+                  checked={role === 'ECE'}
+                  onChange={(e) => setRole(e.target.value as 'ECE')}
+                />
+                ECE (Early Childhood Educator)
               </label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-1">
-                  <input
-                    type="radio"
-                    value="ECE"
-                    checked={role === 'ECE'}
-                    onChange={(e) => setRole(e.target.value as 'ECE')}
-                  />
-                  ECE (Early Childhood Educator)
-                </label>
-                <label className="flex items-center gap-1">
-                  <input
-                    type="radio"
-                    value="Owner"
-                    checked={role === 'Owner'}
-                    onChange={(e) => setRole(e.target.value as 'Owner')}
-                  />
-                  Daycare Owner
-                </label>
-              </div>
+              <label className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  value="Childcare Centre"
+                  checked={role === 'Childcare Centre'}
+                  onChange={(e) => setRole(e.target.value as 'Childcare Centre')}
+                />
+                Childcare Centre
+              </label>
             </div>
           </div>
           <button

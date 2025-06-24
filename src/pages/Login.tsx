@@ -27,10 +27,12 @@ export default function Login() {
     localStorage.setItem("currentUser", JSON.stringify(matchedUser));
 
     // Redirect to role-based dashboard
-    if (matchedUser.role === "Owner") {
-      navigate("/owner-dashboard");
-    } else {
+    if (matchedUser.role === "Childcare Centre") {
+      navigate("/childcare-centre-dashboard");
+    } else if (matchedUser.role === "ECE") {
       navigate("/ece-dashboard");
+    } else {
+      navigate("/login");
     }
   }
 
