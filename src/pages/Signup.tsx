@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export default function Signup() {
   const [fullName, setFullName] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<'ECE' | 'Childcare Centre'>('ECE');
@@ -63,12 +65,9 @@ export default function Signup() {
 
   return (
     <div>
-      <h1>
-        Lightning ECE Signup Form
-      </h1>
       <div className="min-h-screen flex justify-center items-center bg-gray-50 px-4">
         <div className="max-w-md w-full bg-white p-6 rounded-md shadow-md">
-          <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Create an Account</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center text-blue-600">Create a Lightning ECE Account</h1>
           <form className="signup-form" onSubmit={handleSubmit()}>
             <div className="mb-4">
             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
@@ -111,7 +110,7 @@ export default function Signup() {
           </div>
           <div className="mb-4">
             <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-              Role: 
+              Account Type: <span>(Are you an Early Childhood Educator or a Childcare Centre?)</span>
             </label>
             {/* <select
               id="role"
@@ -155,8 +154,6 @@ export default function Signup() {
           </form>
         </div>
       </div>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
     </div>
   );
 }

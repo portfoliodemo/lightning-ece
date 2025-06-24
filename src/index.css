@@ -72,6 +72,16 @@ button:focus-visible {
   justify-items: start;
 }
 
+.signup-form label {
+  font-weight: bold;
+}
+
+.signup-form label span {
+  font-style: italic;
+  font-weight: normal;
+  display: block;
+}
+
 .login-form {
   display: grid;
   flex-direction: column;
@@ -134,6 +144,7 @@ button:focus-visible {
   }
 } */
 
+/* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
@@ -146,7 +157,6 @@ button:focus-visible {
     background-color: #1a1a1a;
   }
 }
-/* Dark mode styles */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -158,5 +168,7 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    border: 1px solid #ccc;
+
   }
 }
