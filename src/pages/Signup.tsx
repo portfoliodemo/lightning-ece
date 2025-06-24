@@ -68,6 +68,31 @@ export default function Signup() {
               <option value="ECE">Early Childhood Educator</option>
               <option value="Owner">Daycare Owner</option>
             </select>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Account Type
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    value="ECE"
+                    checked={role === 'ECE'}
+                    onChange={(e) => setRole(e.target.value as 'ECE')}
+                  />
+                  ECE (Early Childhood Educator)
+                </label>
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    value="Owner"
+                    checked={role === 'Owner'}
+                    onChange={(e) => setRole(e.target.value as 'Owner')}
+                  />
+                  Daycare Owner
+                </label>
+              </div>
+            </div>
           </div>
           <button
             type="submit"
