@@ -1,10 +1,19 @@
 // import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Zap } from 'lucide-react'; 
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 // import { Logs, X } from 'lucide-react'; // optional icon library
 
 export default function Navbar() {
   // const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate('/login'); // Redirect to login after logout
+  }
 
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -12,70 +21,24 @@ export default function Navbar() {
         <h1>
           <Link to="/">Lightning <Zap /> ECE</Link>
         </h1>
-
-        {/* Desktop Navigation */}
         <ul>
           <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-blue-600 font-semibold underline"
-                  : "text-gray-700 hover:text-blue-600 transition"
-              }
-            >
-              Home
-            </NavLink>
+            <NavLink to="/">Home</NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/login"
-              // className={({ isActive }) =>
-              //   isActive
-              //     ? "text-blue-600 font-semibold underline"
-              //     : "text-gray-700 hover:text-blue-600 transition"
-              // }
-            >
-              Login
-            </NavLink>
-          </li>
+            {user ? (
+              <>
+                <li>
+                <span>Welcome, {user.fullName}</span>
+                <button onClick={handleLogout}>
+                  Logout
+                </button>
+                </li>
+              </>
+              ) : (  
+                <NavLink to="/login">Login</NavLink>
+              )}
         </ul>
-
-        {/* Mobile Toggle Button */}
-        {/* <button
-          className="md:hidden text-gray-700 focus:outline-none"
-          onClick={() => setMenuOpen(prev => !prev)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X className="w-6 h-6" /> : <Logs className="w-6 h-6" />}
-        </button> */}
       </div>
-
-      {/* Mobile Menu */}
-      {/* {menuOpen && (
-        <div className="md:hidden bg-white px-4 pb-4 pt-2 border-t border-gray-100">
-          <ul className="flex flex-col gap-2 text-sm font-medium text-gray-700">
-            <li>
-              <Link
-                to="/"
-                className="block hover:text-blue-600"
-                onClick={() => setMenuOpen(false)}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/login"
-                className="block hover:text-blue-600"
-                onClick={() => setMenuOpen(false)}
-              >
-                Login
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )} */}
     </nav>
   );
 }

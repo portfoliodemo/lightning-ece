@@ -1,12 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+import type { User } from "../types/User";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login, user } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // If user is already logged in, redirect to dashboard
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === "Childcare Centre" ? "/childcare-centre-dashboard" : "/ece-dashboard");
+    }
+  }, [user, navigate]);
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -14,8 +25,20 @@ export default function Login() {
     const usersJSON = localStorage.getItem("users");
     const users = usersJSON ? JSON.parse(usersJSON) : [];
 
+    // Check if users array is empty
+    if (!users || users.length === 0) {
+      setError("No users found. Please sign up first.");
+      return;
+    }
+
+    // Check if user exists with matching email and password
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     const matchedUser = users.find(
-      (u: any) => u.email === email && u.password === password
+      (u: User) => u.email === email && u.password === password
     );
 
     if (!matchedUser) {
@@ -23,17 +46,13 @@ export default function Login() {
       return;
     }
 
-    // Save current user session
-    localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+    // This handles both localStorage and global state
+    login(matchedUser);
 
-    // Redirect to role-based dashboard
-    if (matchedUser.role === "Childcare Centre") {
-      navigate("/childcare-centre-dashboard");
-    } else if (matchedUser.role === "ECE") {
-      navigate("/ece-dashboard");
-    } else {
-      navigate("/login");
-    }
+    // Reset fields after login
+    setEmail('');
+    setPassword(''); 
+    setError('');
   }
 
   return (
