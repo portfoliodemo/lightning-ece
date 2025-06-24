@@ -10,7 +10,7 @@ export default function ECEDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-50 px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">ECE (Early Childhood Educator) Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 text-blue-600">ECE Dashboard</h1>
       <p className="text-lg mb-4">Hello, {currentUser.fullName}!</p>
       <p className="text-md mb-8">You are logged in as: {currentUser.role}</p>
 
