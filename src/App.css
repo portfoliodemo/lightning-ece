@@ -19,7 +19,7 @@ ul {
   justify-content: center;
   align-items: center;
   background-color: #f8f9fa;
-  width: 100vw;
+  /* width: 100vw; */
 }
 
 .home-links {
