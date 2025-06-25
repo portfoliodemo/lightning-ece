@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import ECECard from "../components/ECECard";
+import { mockEces } from "../data/mockEces";
 
 export default function ChildcareCentreDashboard() {
   const currentUserJSON = localStorage.getItem("currentUser");
@@ -22,6 +24,15 @@ export default function ChildcareCentreDashboard() {
         <h2 className="text-xl font-semibold mb-4">Dashboard Overview</h2>
         <p>This is where you can manage your childcare centre operations.</p>
         {/* Add more dashboard features as needed */}
+      </div>
+
+      <div className="p-6 bg-gray-50 min-h-screen w-full max-w-2xl mt-8 rounded-md shadow-md">
+        <h2 className="text-xl font-semibold mb-4">ECE Profiles (Available Educators)</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockEces.map((ece) => (
+            <ECECard key={ece.email} ece={ece} />
+          ))}
+        </div>
       </div>
     </div>
   );

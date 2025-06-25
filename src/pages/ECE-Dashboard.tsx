@@ -20,7 +20,7 @@ export default function ECEDashboard() {
       {/* Add more dashboard content here */}
       <div className="bg-white p-6 rounded-md shadow-md w-full max-w-2xl">
         <h2 className="text-xl font-semibold mb-4">Dashboard Overview</h2>
-        <p>This is where you can manage your childcare centre operations.</p>
+        <p>This is where you can manage your ECE profile and bookings.</p>
         {/* Add more dashboard features as needed */}
       </div>
     </div>
