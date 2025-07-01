@@ -108,7 +108,7 @@ export default function Signup() {
               Account Type: <span>(Are you an Early Childhood Educator or a Childcare Centre?)</span>
             </label>
             <div className="flex gap-4">
-              <label className="flex items-center gap-1">
+              <label htmlFor="role-ece" className="flex items-center gap-1">
                 <input
                   type="radio"
                   value="ECE"
@@ -117,7 +117,7 @@ export default function Signup() {
                 />
                 ECE (Early Childhood Educator)
               </label>
-              <label className="flex items-center gap-1">
+              <label htmlFor="role-childcare-centre" className="flex items-center gap-1">
                 <input
                   type="radio"
                   value="Childcare Centre"
