@@ -11,7 +11,7 @@
     "vite",
     "tailwindcss"
   ],
-  "homepage": "https://portfoliodemo.github.io/lightning-ece",
+  "homepage": "https://portfoliodemo.github.io/lightning-ece/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
