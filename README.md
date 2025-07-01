@@ -7,20 +7,20 @@
 
 ## 🧠 Overview
 
-**Lightning-ECE** is a full-stack web application that connects daycare owners with certified Early Childhood Educators (ECEs) who are available on short notice. This platform addresses real-world staffing challenges through a responsive, role-based system:
+**Lightning-ECE** is a full-stack web application (currently frontend-only) that connects daycare owners with certified Early Childhood Educators (ECEs) who are available on short notice. This platform addresses real-world staffing challenges through a responsive, role-based system:
 
 * 👩‍🏫 **Daycare Owners** can browse and book qualified, verified ECEs.
 * 📆 **ECEs** can manage their availability and accept or decline job offers.
-* 🔐 **Admins** oversee verification, support, and platform integrity.
+* 🔐 **Admins** oversee verification, support, and platform integrity (planned for future implementation).
 
 ---
 
 ## 🎯 Project Goals
 
-* Build a high-quality, maintainable full-stack application
-* Showcase best practices in frontend, backend, and DevOps
+* Build a high-quality, maintainable frontend application
+* Showcase best practices in React and TypeScript development
 * Enable growth as a full-stack developer through applied learning
-* Launch a valuable MVP quickly with ongoing refinement
+* Plan for backend integration with MySQL or similar database solutions
 
 ---
 
@@ -32,18 +32,17 @@
 * TypeScript
 * Tailwind CSS
 * React Router
-* Clerk (authentication and role-based access)
+* Custom authentication using React Context and localStorage
 
-### Backend
+### Backend (Planned)
 
 * Node.js + Express (TypeScript)
-* Prisma ORM
-* PostgreSQL
+* MySQL or PostgreSQL (to replace localStorage)
+* Prisma ORM (planned for database interaction)
 
 ### Tooling & Deployment
 
 * Vercel (Frontend Hosting)
-* Railway or Supabase (Backend & DB)
 * Prettier, ESLint, Husky, Lint-Staged
 * GitHub Actions (CI/CD)
 
@@ -51,7 +50,7 @@
 
 ## 👥 User Roles
 
-* **Admin**: Manages ecosystem, verifies credentials
+* **Admin**: Manages ecosystem, verifies credentials (planned)
 * **ECE (Educator)**: Sets availability, responds to requests
 * **Daycare Owner**: Searches and books educators
 
@@ -59,18 +58,16 @@
 
 ## ✨ Key Features (MVP)
 
-* Role-based authentication
+* Role-based authentication using React Context and localStorage
 * ECE profile and availability status
 * Booking request system with accept/decline logic
-* Certification upload and admin review
-* Email notifications and dashboard views
+* Future plans for backend integration with database storage
 
 ---
 
 ### Requirements
 
 * Node.js (LTS)
-* PostgreSQL
 * VS Code
 * Git
 
@@ -89,8 +86,6 @@ dist/
 
 ---
 
-## 🎓 Learning Focus
-
 *Lightning-ECE is not just about launching a product — it’s about building foundational knowledge in:*
 
 * Modular architecture
@@ -98,7 +93,7 @@ dist/
 * Thoughtful feature design
 * Continuous learning
 
-Use `docs/dev-log.md` to document your journey.
+Use `docs/dev-log.md` to document developer journey.
 
 ---
 
@@ -109,12 +104,6 @@ Use `docs/dev-log.md` to document your journey.
 * In Progress
 * Review/Testing
 * Done
-
----
-
-## 🧩 Initial Project Tasks
-
-Refer to `docs/initial-task-list.md` or the GitHub Project Board for the **first 50 steps** — a detailed, learning-focused breakdown of development tasks.
 
 ---
 
