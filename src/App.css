@@ -43,7 +43,7 @@ ul {
   transition: transform 0.2s;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
+  /* color: inherit; */
 }
 
 
