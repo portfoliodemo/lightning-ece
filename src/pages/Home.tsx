@@ -49,11 +49,12 @@ export default function Home() {
           <li>Easy-to-use interface</li>
         </ul>
       </section> */}
-      <section>
-        <h3>Get Started</h3>
+      <section className="get-started">
+        <h2>Get Started</h2>
         <p>
           Ready to connect with early childhood educators or childcare centres?
-          <br />
+        </p>
+        <p>
           <Link to="/signup">Sign up</Link> or <Link to="/login">log in</Link> to get started!
         </p>
       </section>
