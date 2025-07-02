@@ -12,11 +12,11 @@ export default function Home() {
         <h2>Connecting Early Childhood Educators with Childcare Centres</h2>
       </section>
       <section>
-        <figure>
+        <figure className="hero-wrapper">
           <img
             src={ hero }
             alt="Lightning ECE Logo"
-            className="daycare-logo"
+            className="daycare-logo flex justify-center"
           />
           {/* className="w-32 h-32 mx-auto" //  */}
         </figure>

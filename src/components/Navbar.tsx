@@ -20,14 +20,18 @@ export default function Navbar() {
     // <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50"></nav>
     <nav>
       <div className="nav-header max-w-7-xl mx-auto px-4 py-4 flex justify-between items-center">
-        <figure className="logo">
-          <img
-            src={logo}
-            alt="Lightning ECE Logo"
-            className="daycare-logo"
-            />
-        </figure>
+        <div className="logo-header">
+          <figure className="logo">
+            <img
+              src={logo}
+              alt="Lightning ECE Logo"
+              className="daycare-logo"
+              />
+          </figure>
           <Link to="/">Lightning ECE</Link>
+        </div>
+
+        <div className="nav-links">
         <ul>
           <li>
             <NavLink to="/">Home</NavLink>
@@ -45,6 +49,7 @@ export default function Navbar() {
                 <NavLink to="/login">Login</NavLink>
               )}
         </ul>
+        </div>
       </div>
     </nav>
   );
