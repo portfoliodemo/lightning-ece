@@ -13,7 +13,7 @@ export default function Home() {
       <section>
         <figure>
           <img
-            src="./src/assets/destination.svg"
+            src="./src/assets/images/destination.svg"
             alt="Lightning ECE Logo"
             className="daycare-logo"
           />
