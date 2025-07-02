@@ -97,6 +97,39 @@ button:focus-visible {
   justify-items: start;
 }
 
+/* .logo .daycare-logo {
+  width: 10%;
+  max-width: 10rem;
+  min-width: 3rem;
+} */
+
+.daycare-logo {
+  width: 20%;
+  max-width: 20rem;
+  min-width: 6rem
+}
+
+.how-it-works {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.how-it-works p {
+  max-width: 60ch;
+  text-align: start;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
 /* .signup-form label {
   display: flex;
   flex-direction: column;

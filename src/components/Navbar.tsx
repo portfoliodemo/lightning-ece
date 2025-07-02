@@ -21,6 +21,13 @@ export default function Navbar() {
       <div className="nav-header max-w-7-xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* <h1> */}
         {/* <Zap /> */}
+        <figure className="logo">
+          <img
+            src="./src/assets/images/lightning-ece-logo.jpg"
+            alt="Lightning ECE Logo"
+            className="daycare-logo"
+            />
+        </figure>
           <Link to="/">Lightning ECE</Link>
         {/* </h1> */}
         <ul>

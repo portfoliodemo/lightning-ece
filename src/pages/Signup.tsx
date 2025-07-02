@@ -110,6 +110,7 @@ export default function Signup() {
             <div className="flex gap-4">
               <label htmlFor="role-ece" className="flex items-center gap-1">
                 <input
+                  id="role-ece"
                   type="radio"
                   value="ECE"
                   checked={role === 'ECE'}
@@ -119,6 +120,7 @@ export default function Signup() {
               </label>
               <label htmlFor="role-childcare-centre" className="flex items-center gap-1">
                 <input
+                  id="role-childcare-centre"
                   type="radio"
                   value="Childcare Centre"
                   checked={role === 'Childcare Centre'}

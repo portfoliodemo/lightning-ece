@@ -31,7 +31,7 @@ ul {
 
 .home-links {
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
   gap: 1rem;
   padding: 0.5rem 1rem;
