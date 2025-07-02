@@ -156,6 +156,15 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f0f0f0;
+  gap: 1rem;
+  border-radius: 0.5rem;
+  margin: 0;
+}
+
+.get-started h2 {
+  margin: 0;
 }
 
 .get-started p {

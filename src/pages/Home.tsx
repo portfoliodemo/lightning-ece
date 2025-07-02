@@ -51,7 +51,7 @@ export default function Home() {
         </ul>
       </section> */}
       <section className="get-started">
-        <h2>Get Started</h2>
+        <h2>Get Started!</h2>
         <p>
           Ready to connect with early childhood educators or childcare centres?
         </p>
