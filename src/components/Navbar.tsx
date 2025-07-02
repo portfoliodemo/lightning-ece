@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 // import { Zap } from 'lucide-react'; // Uncomment if you want to use the Zap icon
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/images/lightning-ece-logo.jpg'
 // import { Logs, X } from 'lucide-react'; // optional icon library
 
 export default function Navbar() {
@@ -21,7 +22,7 @@ export default function Navbar() {
       <div className="nav-header max-w-7-xl mx-auto px-4 py-4 flex justify-between items-center">
         <figure className="logo">
           <img
-            src="./src/assets/images/lightning-ece-logo.jpg"
+            src={logo}
             alt="Lightning ECE Logo"
             className="daycare-logo"
             />

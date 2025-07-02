@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import hero from "../assets/images/destination.svg"; // Adjust the path as necessary
 // import { Zap } from "lucide-react"; // Uncomment if you want to use the Zap icon
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
       <section>
         <figure>
           <img
-            src="./src/assets/images/destination.svg"
+            src={ hero }
             alt="Lightning ECE Logo"
             className="daycare-logo"
           />
