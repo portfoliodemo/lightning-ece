@@ -45,7 +45,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #fff;
+  /* background-color: #fff; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -105,7 +105,6 @@ button:focus-visible {
 
 .logo {
   margin: 0;
-  max-width: 6rem;
 }
 
 .hero-wrapper {

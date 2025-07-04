@@ -25,10 +25,37 @@ ul {
   /* width: 100vw; */
 }
 
+.nav-header a {
+  display: inline-flex;
+  align-items: center;
+   
+}
+
 .nav-header ul li {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.login-button {
+  padding: 0.5rem 1rem;
+  background-color: green;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  /* transition: background-color 0.3s, transform 0.2s; */
+}
+
+.login-button:hover {
+  background-color: rgb(1, 99, 1);
+  /* transform: scale(1.025); */
+  color: white;
+  /* font-weight: bold; */
+  /* border-color: rgb(226, 204, 161);
+  border-width: 0.25rem;
+  border-style: groove; */
 }
 
 .home-links {
