@@ -1,8 +1,8 @@
 #root {
-  /* max-width: 1280px; */
+  max-width: 1280px; 
   margin: 0 auto;
-  /* padding: 0 2rem; */
   text-align: center;
+  padding: 0 2rem;
 }
 
 ul {
@@ -37,7 +37,7 @@ ul {
   gap: 2rem;
 }
 
-.login-button {
+/* .login-button {
   padding: 0.5rem 1rem;
   background-color: green;
   color: white;
@@ -45,18 +45,12 @@ ul {
   border: none;
   border-radius: 1rem;
   cursor: pointer;
-  /* transition: background-color 0.3s, transform 0.2s; */
-}
+} */
 
-.login-button:hover {
+/* .login-button:hover {
   background-color: rgb(1, 99, 1);
-  /* transform: scale(1.025); */
   color: white;
-  /* font-weight: bold; */
-  /* border-color: rgb(226, 204, 161);
-  border-width: 0.25rem;
-  border-style: groove; */
-}
+} */
 
 .home-links {
   display: inline-flex;
