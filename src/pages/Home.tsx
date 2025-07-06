@@ -31,7 +31,7 @@ export default function Home() {
       <section className="how-it-works">
         <h2>How Lightning ECE Works</h2>
         <p>
-          Lightning ECE allows early childhood educators to create profiles showcasing their skills and experience, while childcare centres can post temporary job openings and search for suitable candidates.
+          Lightning ECE enables early childhood educators to connect with childcare centres to alleviate short term staffing needs.
         </p>
         <p>
           Whether you're an educator looking for a new opportunity or a childcare centre seeking qualified staff, Lightning ECE simplifies the process of connecting with the right people.
