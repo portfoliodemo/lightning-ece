@@ -31,7 +31,7 @@ export default function Home() {
       <section className="how-it-works">
         <h2>How Lightning ECE Works</h2>
         <p>
-          Lightning ECE enables early childhood educators to connect with childcare centres to alleviate short term staffing needs.
+          Lightning ECE connects early childhood educators with childcare centres to solve short-term staffing needs.
         </p>
         <p>
           Whether you're an educator looking for a new opportunity or a childcare centre seeking qualified staff, Lightning ECE simplifies the process of connecting with the right people.
