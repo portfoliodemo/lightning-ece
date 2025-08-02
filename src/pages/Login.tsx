@@ -92,6 +92,13 @@ export default function Login() {
             Log In
           </button>
         </form>
+
+        <p><a href="/signup">Sign up</a></p>
+        {/* // Optional: Add a link to reset password */}
+        <p className="mt-2 text-sm text-center text-gray-600">
+          <a href="/forgot-password" className="text-blue-600 hover:underline">Forgot Password</a>
+        </p>
+        
       </div>
     </div>
   );
