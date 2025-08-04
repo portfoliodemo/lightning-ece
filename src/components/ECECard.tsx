@@ -7,7 +7,7 @@ type ECECardProps = {
 export default function ECECard({ ece }: ECECardProps) {
   return (
     <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200">
-        <div className="flex items-center mb-4">
+        <div className="flex flex-col items-center mb-4">
         <h2 className="text-xl font-semibold">{ece.fullName}</h2>
             <p className="text-gray-600">{ece.email}</p>
             <p className="text-gray-500">Role: {ece.role}</p>
