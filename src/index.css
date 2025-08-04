@@ -92,6 +92,7 @@ button:focus-visible {
   justify-items: center;
   gap: 1rem;
   width: 100%;
+  padding: 1rem 0;
 }
 
 .login-form div {
