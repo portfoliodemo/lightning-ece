@@ -25,8 +25,8 @@ export default function Home() {
         </p> */}
       </section>      
       <div className="home-links">
-        <Link to="/login">Login</Link>
         <Link to="/signup">Signup</Link>
+        <Link to="/login">Login</Link>
       </div>
       <section className="how-it-works">
         <h2>How Lightning ECE Works</h2>
