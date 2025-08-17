@@ -1,17 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import type { BaseUser } from "../types/User";
 
 // Define the shape of our user
-type User = {
-  fullName: string;
-  email: string;
-  password: string;
-  role: "ECE" | "Childcare Centre";
-};
+// type User = {
+//   fullName: string;
+//   email: string;
+//   password: string;
+//   role: "ECE" | "Childcare Centre";
+// };
 
 // This is what the context provides
 type AuthContextType = {
-  user: User | null;
-  login: (user: User) => void;
+  user: BaseUser | null;
+  login: (user: BaseUser) => void;
   logout: () => void;
 };
 
@@ -19,7 +20,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<BaseUser | null>(null);
 
   // Load user from localStorage if they refreshed the page
   useEffect(() => {
@@ -30,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Login function: update state + save to storage
-  const login = (user: User) => {
+  const login = (user: BaseUser) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
     setUser(user);
   };
