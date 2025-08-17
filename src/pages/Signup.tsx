@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import type { User } from "../types/User";
+import type { BaseUser } from "../types/User";
 
 export default function Signup() {
   const { user } = useAuth();
@@ -16,6 +16,9 @@ export default function Signup() {
     }
   }, [user, navigate]);
 
+  const [id] = useState(''); // In a real app, use a proper ID generator
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +30,10 @@ export default function Signup() {
     e.preventDefault();
 
     // Passwords are stored in plain text only for MVP demonstration
-    const user: User = {
+    const user: BaseUser = {
+      id,
+      firstName,
+      lastName,
       fullName,
       email,
       password,
@@ -52,6 +58,8 @@ export default function Signup() {
     navigate('/login');
 
     // // You can also reset the form fields after successful signup
+    setFirstName('');
+    setLastName('');
     setFullName('');
     setEmail('');
     setPassword('');
