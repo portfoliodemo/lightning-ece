@@ -1,7 +1,10 @@
-import type { User } from '../types/User';
+import type { ECEUser } from '../types/ECE';
 
-export const mockEces: User[] = [
+export const mockEces: ECEUser[] = [
   {
+    id: '1',
+    firstName: 'Alice',
+    lastName: 'Johnson',
     fullName: 'Alice Johnson',
     email: 'alice@wonderland.com',
     password: 'password123',
@@ -9,6 +12,9 @@ export const mockEces: User[] = [
     available: true,
   },
   {
+    id: '2',
+    firstName: 'Bob',
+    lastName: 'Smith',
     fullName: 'Bob Smith',
     email: 'bobsmitty@email.com',
     password: 'heybob11',
@@ -16,6 +22,9 @@ export const mockEces: User[] = [
     available: false,
   },
   {
+    id: '3',
+    firstName: 'Charlie',
+    lastName: 'Brown',
     fullName: 'Charlie Brown',
     email: 'snoopy@redbaron.com',
     password: 'charlie123',

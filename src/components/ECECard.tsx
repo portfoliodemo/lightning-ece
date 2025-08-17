@@ -1,7 +1,7 @@
-import type { User } from '../types/User';
+import type { ECEUser } from '../types/User';
 
 type ECECardProps = {
-  ece: User;
+  ece: ECEUser;
 };
 
 export default function ECECard({ ece }: ECECardProps) {
@@ -32,6 +32,7 @@ export default function ECECard({ ece }: ECECardProps) {
             <p className="text-gray-700">Phone: {ece.phone || 'No phone number available'}</p>
             <p className="text-gray-700">Address: {ece.address || 'No address available'}</p>
             <p className="text-gray-700">Qualifications: {ece.qualifications?.join(', ') || 'No qualifications listed'}</p>
+            // Certifications?
             <p className="text-gray-700">Ratings: {ece.ratings ? ece.ratings.toFixed(1) : 'No ratings yet'}</p>
             <p className="text-gray-700">Reviews: {ece.reviews?.length || 0} reviews</p>
             <p className="text-gray-700">Bookings: {ece.bookings?.length || 0} bookings</p>
