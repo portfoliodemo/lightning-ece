@@ -1,5 +1,6 @@
-export type UserRole = "ECE" | "Childcare Centre";
+export type UserRole = "ECE" | "Childcare Centre" | "Admin";
 
+// This type defines the base structure for a user in the application.
 export type BaseUser = {
   id: string; // Unique identifier for the user
   firstName: string;
