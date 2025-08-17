@@ -1,4 +1,4 @@
-import type { ECEUser } from '../types/User';
+import type { ECEUser } from '../types/ECE';
 
 type ECECardProps = {
   ece: ECEUser;

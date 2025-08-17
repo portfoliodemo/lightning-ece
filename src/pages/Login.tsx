@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
-import type { User } from "../types/User";
+import type { BaseUser } from "../types/User";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -39,7 +39,7 @@ export default function Login() {
     }
 
     const matchedUser = users.find(
-      (u: User) => u.email === email && u.password === password
+      (u: BaseUser) => u.email === email && u.password === password
     );
 
     if (!matchedUser) {
