@@ -5,6 +5,7 @@ import './index.css';
 import { HashRouter } from 'react-router-dom';
 import App from './App.tsx';
 import { AuthProvider } from "./context/AuthContext"; 
+import { RequestsProvider } from './context/RequestsContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,7 +13,9 @@ createRoot(document.getElementById('root')!).render(
     <HashRouter>
       {/* Using HashRouter for better compatibility with GitHub Pages */}
       <AuthProvider>
+        <RequestsProvider>
         <App />
+        </RequestsProvider>
       </AuthProvider>
     </HashRouter>
     {/* </BrowserRouter> */}

@@ -177,6 +177,35 @@ button:focus-visible {
   margin: 0;
 }
 
+.card-button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ece-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.ece-card {
+  background-color: rgb(2, 248, 248);
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 36, 243, 0.1) 0px 4px 6px -1px,
+              rgba(1, 58, 245, 0.06) 0px 2px 4px -1px;
+  /* display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+              rgba(0, 0, 0, 0.06) 0px 2px 4px -1px; */
+}
+
 /* .signup-form label {
   display: flex;
   flex-direction: column;

@@ -28,7 +28,7 @@ export default function ChildcareCentreDashboard() {
 
       <div className="p-6 bg-gray-50 min-h-screen w-full max-w-2xl mt-8 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4">ECE Profiles (Available Educators)</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="ece-card-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockEces.map((ece) => (
             <ECECard key={ece.email} ece={ece} />
           ))}
