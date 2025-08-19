@@ -1,3 +1,4 @@
+// src/context/RequestsContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { EceRequest, RequestStatus } from "../types/Request";
 import { useAuth } from "./AuthContext";
@@ -7,6 +8,8 @@ const STORAGE_KEY = "requests";
 type RequestsContextType = {
   requests: EceRequest[];
   createRequest: (eceId: string, opts?: { message?: string; date?: string }) => EceRequest;
+  sendRequest: (request: EceRequest) => void;
+  cancelRequest: (id: string) => void;
   respond: (requestId: string, status: Exclude<RequestStatus, "Pending">) => void;
   getForEce: (eceId: string) => EceRequest[];
   getForCentre: (centreId: string) => EceRequest[];
@@ -18,15 +21,13 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
   const [requests, setRequests] = useState<EceRequest[]>([]);
   const { user } = useAuth();
 
-  // Load from storage
+  // Load from storage once
   useEffect(() => {
-    const json = localStorage.getItem(STORAGE_KEY);
-    if (json) {
-      try {
-        setRequests(JSON.parse(json));
-      } catch {
-        setRequests([]);
-      }
+    try {
+      const json = localStorage.getItem(STORAGE_KEY);
+      if (json) setRequests(JSON.parse(json));
+    } catch {
+      setRequests([]);
     }
   }, []);
 
@@ -35,40 +36,79 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
   }, [requests]);
 
-  function createRequest(eceId: string, opts?: { message?: string; date?: string }): EceRequest {
+  // Add a request (centralized path + duplicate protection)
+  const sendRequest = (newRequest: EceRequest) => {
+    setRequests((prev) => {
+      const duplicate = prev.find(
+        (r) =>
+          r.eceId === newRequest.eceId &&
+          r.centreId === newRequest.centreId &&
+          r.status === "Pending" &&
+          // If a date is given, consider same-date pending a duplicate too
+          (!newRequest.date || r.date === newRequest.date)
+      );
+      if (duplicate) return prev;
+      return [newRequest, ...prev];
+    });
+  };
+
+  // Convenience helper for Centres to create a request
+  const createRequest = (eceId: string, opts?: { message?: string; date?: string }): EceRequest => {
     if (!user || user.role !== "Childcare Centre") {
       throw new Error("Only Childcare Centre users can create requests.");
     }
-    const id = (crypto?.randomUUID && crypto.randomUUID()) || `req_${Date.now()}_${Math.random()}`;
+
+    const id =
+      (typeof crypto !== "undefined" &&
+        "randomUUID" in crypto &&
+        crypto.randomUUID()) ||
+      `req_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
     const newReq: EceRequest = {
       id,
       eceId,
-      centreId: user.id,
+      centreId: user.id, // relies on unified User including id: string
       createdAt: new Date().toISOString(),
       status: "Pending",
       message: opts?.message,
       date: opts?.date,
     };
-    setRequests(prev => [newReq, ...prev]);
+
+    sendRequest(newReq);
     return newReq;
-  }
+  };
 
-  function respond(requestId: string, status: Exclude<RequestStatus, "Pending">) {
-    setRequests(prev =>
-      prev.map(r => (r.id === requestId ? { ...r, status } : r))
+  // ECE or Centre responds to a request (Accept/Decline/Cancelled/Expired)
+  const respond = (requestId: string, status: Exclude<RequestStatus, "Pending">) => {
+    setRequests((prev) =>
+      prev.map((r) =>
+        r.id === requestId ? { ...r, status, updatedAt: new Date().toISOString() } : r
+      )
     );
-  }
+  };
 
-  function getForEce(eceId: string) {
-    return requests.filter(r => r.eceId === eceId);
-  }
+  // Centre withdraws/cancels its pending request
+  const cancelRequest = (id: string) => {
+    setRequests((prev) =>
+      prev.map((r) =>
+        r.id === id ? { ...r, status: "Cancelled", updatedAt: new Date().toISOString() } : r
+      )
+    );
+  };
 
-  function getForCentre(centreId: string) {
-    return requests.filter(r => r.centreId === centreId);
-  }
+  const getForEce = (eceId: string) => requests.filter((r) => r.eceId === eceId);
+  const getForCentre = (centreId: string) => requests.filter((r) => r.centreId === centreId);
 
   const value = useMemo(
-    () => ({ requests, createRequest, respond, getForEce, getForCentre }),
+    () => ({
+      requests,
+      createRequest,
+      sendRequest,
+      cancelRequest,
+      respond,
+      getForEce,
+      getForCentre,
+    }),
     [requests]
   );
 

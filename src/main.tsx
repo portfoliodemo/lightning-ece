@@ -9,15 +9,29 @@ import { RequestsProvider } from './context/RequestsContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* <BrowserRouter> */}
     <HashRouter>
-      {/* Using HashRouter for better compatibility with GitHub Pages */}
       <AuthProvider>
         <RequestsProvider>
-        <App />
+          <App />
         </RequestsProvider>
       </AuthProvider>
     </HashRouter>
-    {/* </BrowserRouter> */}
   </StrictMode>,
-)
+);
+
+
+// Previously used BrowserRouter, but switched to HashRouter for better compatibility with GitHub Pages
+// createRoot(document.getElementById('root')!).render(
+//   <StrictMode>
+//     {/* <BrowserRouter> */}
+//     <HashRouter>
+//       {/* Using HashRouter for better compatibility with GitHub Pages */}
+//       <AuthProvider>
+//         <RequestsProvider>
+//         <App />
+//         </RequestsProvider>
+//       </AuthProvider>
+//     </HashRouter>
+//     {/* </BrowserRouter> */}
+//   </StrictMode>,
+// )

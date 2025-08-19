@@ -193,7 +193,8 @@ button:focus-visible {
 }
 
 .ece-card {
-  background-color: rgb(2, 248, 248);
+  /* background-color: rgb(2, 248, 248); */
+  background-color: rgb(236, 235, 235);
   padding: 1rem;
   gap: 1rem;
   border-radius: 1rem;
