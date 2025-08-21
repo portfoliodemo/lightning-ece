@@ -10,6 +10,7 @@ export type EceRequest = {
     status: RequestStatus;  // Status of the request (Pending, Accepted, Declined, Cancelled)
     date?: string; // Date for the requested booking
     message?: string; // Optional message or note for the request
-    // centreName?: string; // Optional name of the childcare centre
+    centreName?: string; // Optional name of the childcare centre
+    timestamp?: string; // Optional timestamp of the request creation
     // eceName?: string; // Optional name of the ECE user making the request
 };
