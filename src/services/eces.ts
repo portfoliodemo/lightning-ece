@@ -7,5 +7,5 @@ export async function getAllEces() {
 
 export async function getEceMap() {
   const eces = await getAllEces();
-  return new Map(eces.map((e) => [e.id, e]));
+  return new Map(eces.map((e: ECEUser) => [e.id, e]));
 }

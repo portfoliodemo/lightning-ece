@@ -26,7 +26,7 @@ export async function createRequest(params: {
     eceId: params.eceId,
     status: "Pending",
     createdAt: new Date().toISOString(),
-    updatedAt: undefined,
+    updatedAt: new Date().toISOString(),
     message: params.message,
     date: params.date,
     // optional denorm fields if you want (safe to omit on the backend)

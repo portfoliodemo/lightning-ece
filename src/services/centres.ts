@@ -13,5 +13,5 @@ export async function getAllCentres() {
 
 export async function getCentresMap() {
   const centres = await getAllCentres();
-  return new Map(centres.map((c) => [c.id, c]));
+  return new Map(centres.map((c: Centre) => [c.id, c]));
 }

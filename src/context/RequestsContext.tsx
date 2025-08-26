@@ -3,19 +3,40 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { EceRequest, RequestStatus } from "../types/Request";
 import { useAuth } from "./AuthContext";
-import { mockEces } from "../data/mockEces"; // ✅ import ECEs so we can resolve their names
+// import { mockEces } from "../data/mockEces"; // import ECEs so we can resolve their names
+import { getAllEces } from "../services/eces";
 
 const STORAGE_KEY = "requests";
 
 type RequestsContextType = {
   requests: EceRequest[];
-  createRequest: (eceId: string, opts?: { message?: string; date?: string }) => EceRequest;
-  sendRequest: (request: EceRequest) => void;
+  createRequest: (
+    eceId: string,
+    opts?: { message?: string; date?: string }
+  ) => Promise<EceRequest>;
   cancelRequest: (id: string) => void;
-  respond: (requestId: string, status: Exclude<RequestStatus, "Pending">) => void;
+  respond: (
+    requestId: string,
+    status: Exclude<RequestStatus, "Pending">
+  ) => void;
   getForEce: (eceId: string) => EceRequest[];
   getForCentre: (centreId: string) => EceRequest[];
 };
+
+
+// Initial RequestsContextType
+// type RequestsContextType = {
+//   requests: EceRequest[];
+//   createRequest: (
+//     eceId: string, 
+//     opts?: { message?: string; date?: string }
+//   ) => Promise<EceRequest>;
+//   sendRequest: (request: EceRequest) => void;
+//   cancelRequest: (id: string) => void;
+//   respond: (requestId: string, status: Exclude<RequestStatus, "Pending">) => void;
+//   getForEce: (eceId: string) => EceRequest[];
+//   getForCentre: (centreId: string) => EceRequest[];
+// };
 
 const RequestsContext = createContext<RequestsContextType | undefined>(undefined);
 
@@ -38,7 +59,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
   }, [requests]);
 
-  // 🔹 Add a request (centralized path + duplicate protection)
+  // Add a request (centralized path + duplicate protection)
   const sendRequest = (newRequest: EceRequest) => {
     setRequests((prev) => {
       const duplicate = prev.find(
@@ -54,11 +75,11 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  // 🔹 Convenience helper for Centres to create a request
-  const createRequest = (
+  // Convenience helper for Centres to create a request
+  const createRequest = async (
     eceId: string,
     opts?: { message?: string; date?: string }
-  ): EceRequest => {
+  ): Promise<EceRequest> => {
     if (!user || user.role !== "Childcare Centre") {
       throw new Error("Only Childcare Centre users can create requests.");
     }
@@ -69,8 +90,12 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
         crypto.randomUUID()) ||
       `req_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
-    // ✅ Look up ECE name from mockEces so we can display names directly
-    const ece = mockEces.find((e) => e.id === eceId);
+    const eces = await getAllEces(); // Fetch ECEs from the service
+    const ece = eces.find((e) => e.id === eceId);
+
+    // Original mock data approach:
+    // Look up ECE name from mockEces so we can display names directly
+    // const ece = mockEces.find((e) => e.id === eceId);
 
     const newReq: EceRequest = {
       id,

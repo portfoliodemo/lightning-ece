@@ -1,29 +1,42 @@
 {
-    "centres": [
-      {
-        "id": "centre1",
-        "name": "Little Stars Daycare",
-        "email": "centre1@example.com",
-        "password": "password123"
-      }
-    ],
-    "eces": [
-      {
-        "id": "ece1",
-        "fullName": "Jane Doe",
-        "email": "ece1@example.com",
-        "password": "password123"
-      }
-    ],
-    "requests": [
-      {
-        "id": "req1",
-        "centreId": "centre1",
-        "eceId": "ece1",
-        "status": "Pending",
-        "message": "We’d like to book you for next Monday.",
-        "createdAt": "2025-08-23T12:00:00Z"
-      }
-    ]
-  }
-  
+  "centres": [
+    {
+      "id": "centre1",
+      "name": "Little Stars Daycare",
+      "email": "centre1@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "3b98bec1-0d6c-4f20-a65a-29bd0dd90611",
+      "name": "Little Hands Montessori Academy Ltd",
+      "email": "lhma@lhma.com",
+      "password": "hunter2"
+    }
+  ],
+  "eces": [
+    {
+      "id": "ece1",
+      "fullName": "Jane Doe",
+      "email": "ece1@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "cd4e308b-979f-4157-ba6d-fb2ca299e4cb",
+      "fullName": "Dani Dan",
+      "firstName": "Dani",
+      "lastName": "Dan",
+      "email": "dani@dani.com",
+      "password": "hunter2"
+    }
+  ],
+  "requests": [
+    {
+      "id": "req1",
+      "centreId": "centre1",
+      "eceId": "ece1",
+      "status": "Pending",
+      "message": "We’d like to book you for next Monday.",
+      "createdAt": "2025-08-23T12:00:00Z"
+    }
+  ]
+}
