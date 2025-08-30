@@ -11,6 +11,18 @@
       "name": "Little Hands Montessori Academy Ltd",
       "email": "lhma@lhma.com",
       "password": "hunter2"
+    },
+    {
+      "id": "36d0529e-1382-4c5f-b7c2-10bba9486c5c",
+      "name": "DaddyODaycare",
+      "email": "daddy@daddyo.com",
+      "password": "hunter2"
+    },
+    {
+      "id": "650bdad7-de7a-4118-8a01-93ed92a569bc",
+      "name": "LHMA",
+      "email": "lhma@lhma.com",
+      "password": "lhma"
     }
   ],
   "eces": [
@@ -27,6 +39,22 @@
       "lastName": "Dan",
       "email": "dani@dani.com",
       "password": "hunter2"
+    },
+    {
+      "id": "0e8bb860-f992-4573-b02e-bfb586f9fcf3",
+      "fullName": "Jane Doe",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "email": "j@doe.com",
+      "password": "jdoe"
+    },
+    {
+      "id": "1d0f74a4-c3c1-4b6c-aade-ad49ae454d6f",
+      "fullName": "Jane De",
+      "firstName": "Jane",
+      "lastName": "De",
+      "email": "j@de.com",
+      "password": "jde"
     }
   ],
   "requests": [

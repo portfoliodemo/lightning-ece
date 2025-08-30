@@ -44,7 +44,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
   const [requests, setRequests] = useState<EceRequest[]>([]);
   const { user } = useAuth();
 
-  // 🔹 Load requests from localStorage once on mount
+  // Load requests from localStorage once on mount
   useEffect(() => {
     try {
       const json = localStorage.getItem(STORAGE_KEY);
@@ -54,7 +54,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // 🔹 Persist to localStorage whenever requests change
+  // Persist to localStorage whenever requests change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
   }, [requests]);
@@ -117,7 +117,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     return newReq;
   };
 
-  // 🔹 ECE or Centre responds (Accept/Decline/Cancelled/Expired)
+  // ECE or Centre responds (Accept/Decline/Cancelled/Expired)
   const respond = (requestId: string, status: Exclude<RequestStatus, "Pending">) => {
     setRequests((prev) =>
       prev.map((r) =>
@@ -126,7 +126,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  // 🔹 Centre cancels its own request
+  // Centre cancels its own request
   const cancelRequest = (id: string) => {
     setRequests((prev) =>
       prev.map((r) =>
@@ -142,7 +142,7 @@ export function RequestsProvider({ children }: { children: React.ReactNode }) {
     () => ({
       requests,
       createRequest,
-      sendRequest,
+      // sendRequest,
       cancelRequest,
       respond,
       getForEce,
