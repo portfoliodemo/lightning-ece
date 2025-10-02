@@ -1,275 +1,353 @@
-// src/pages/Childcare-Centre-Dashboard.tsx
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import { useRequests } from "../context/RequestsContext";
-import ECECard from "../components/ECECard";
 import { getAllEces } from "../services/eces";
-import type { ECEUser } from "../types/ECE";
+import type { EceRequest } from "../types/Request";
+import type { BaseUser } from "../types/User";
 
 export default function ChildcareCentreDashboard() {
-  const { createRequest } = useRequests();
-  const [eces, setEces] = useState<ECEUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const { getForCentre, create, respond, cancel } = useRequests();
 
+  const [filter, setFilter] = useState<"All" | "Pending" | "Accepted" | "Declined" | "Cancelled">("All");
+  const [requests, setRequests] = useState<EceRequest[]>([]);
+  const [eces, setEces] = useState<BaseUser[]>([]);
+
+  // Load requests for this centre
   useEffect(() => {
-    (async () => {
+    if (user) {
+      setRequests(getForCentre(user.id));
+    }
+  }, [user, getForCentre]);
+
+  // Load all ECEs
+  useEffect(() => {
+    async function loadEces() {
       try {
-        const data = await getAllEces();
-        setEces(data);
+        const allEces = await getAllEces();
+        setEces(allEces);
       } catch (err) {
         console.error("Failed to fetch ECEs:", err);
-      } finally {
-        setLoading(false);
       }
-    })();
+    }
+    loadEces();
   }, []);
 
-  async function handleBookRequest(eceId: string) {
-    try {
-      await createRequest(eceId, {
-        message: "We’d like to connect with you.",
-        date: new Date().toISOString().slice(0, 10),
-      });
-      alert("Request sent!");
-    } catch (err) {
-      console.error("Failed to create request:", err);
-    }
-  }
+  // Filter requests by status
+  const filteredRequests =
+    filter === "All" ? requests : requests.filter((req) => req.status === filter);
 
-  if (loading) return <p>Loading available ECEs...</p>;
+  // Create new request for an ECE
+  const handleSendRequest = async (eceId: string) => {
+    if (!user) return;
+    try {
+      await create({
+        eceId,
+        message: `Request from ${user.fullName ?? "Centre"}`,
+        date: new Date().toISOString().split("T")[0],
+      });
+    } catch (err) {
+      console.error("Error creating request:", err);
+    }
+  };
+
+  const handleRespond = async (id: string, status: "Accepted" | "Declined") => {
+    try {
+      await respond(id, status);
+    } catch (err) {
+      console.error("Error responding to request:", err);
+    }
+  };
+
+  const handleCancel = async (id: string) => {
+    try {
+      await cancel(id);
+    } catch (err) {
+      console.error("Error cancelling request:", err);
+    }
+  };
 
   return (
-    <div className="space-y-4 p-6">
-      <h1 className="text-xl font-bold">Childcare Centre Dashboard</h1>
-      <p className="mb-2">Select an ECE and request them:</p>
+    <div>
+      <h1>Childcare Centre Dashboard</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {eces.length === 0 ? (
-          <p>No ECEs available.</p>
-        ) : (
-          eces.map((ece) => (
-            <ECECard
-              key={ece.id}
-              ece={ece}
-              onBookRequest={handleBookRequest}
-            />
-          ))
-        )}
+      {/* --- Available ECEs --- */}
+      <h2>Available ECEs</h2>
+      <ul>
+        {eces.map((ece) => (
+          <li key={ece.id}>
+            {ece.fullName ?? `${ece.firstName} ${ece.lastName}`}
+            <button onClick={() => handleSendRequest(ece.id)}>Send Request</button>
+          </li>
+        ))}
+      </ul>
+
+      {/* --- Filters --- */}
+      <div style={{ marginTop: "1rem" }}>
+        <label>
+          Filter Requests:{" "}
+          <select value={filter} onChange={(e) => setFilter(e.target.value as any)}>
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Declined">Declined</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </label>
       </div>
+
+      {/* --- Requests List --- */}
+      <h2 style={{ marginTop: "1rem" }}>Requests ({filter})</h2>
+      <ul>
+        {filteredRequests.map((req) => (
+          <li key={req.id}>
+            <strong>{req.eceName ?? req.eceId}</strong>: {req.message} — Status: {req.status}
+            {req.status === "Pending" && (
+              <>
+                <button onClick={() => handleRespond(req.id, "Accepted")}>Accept</button>
+                <button onClick={() => handleRespond(req.id, "Declined")}>Decline</button>
+              </>
+            )}
+            <button onClick={() => handleCancel(req.id)}>Cancel</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 
-// // src/components/ChildcareCentreDashboard.tsx
-// import { useEffect, useState } from "react";
-// import { useRequests } from "../context/RequestsContext";
-// import ECECard from "../components/ECECard";
-// import { getAllEces, type ECE } from "../services/eces";
-
-// export default function ChildcareCentreDashboard() {
-//   const { createRequest } = useRequests();
-//   const [eces, setEces] = useState<ECE[]>([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     async function loadEces() {
-//       try {
-//         const data = await getAllEces();
-//         setEces(data);
-//       } catch (err) {
-//         console.error("Failed to fetch ECEs:", err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
-//     loadEces();
-//   }, []);
-
-//   const handleBookRequest = async (eceId: string) => {
-//     try {
-//       await createRequest(eceId, {
-//         message: "We’d like to connect with you.",
-//         date: new Date().toISOString().slice(0, 10),
-//       });
-//       alert("Request sent!");
-//     } catch (err) {
-//       console.error("Failed to create request:", err);
-//     }
-//   };
-
-//   if (loading) return <p>Loading available ECEs...</p>;
-
-//   return (
-//     <div className="space-y-4">
-//       <h2 className="text-2xl font-bold">Available ECEs</h2>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-//         {eces.length === 0 ? (
-//           <p>No ECEs available.</p>
-//         ) : (
-//           eces.map((ece) => (
-//             <ECECard
-//               key={ece.id}
-//               ece={ece}
-//               onBookRequest={handleBookRequest}
-//             />
-//           ))
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
 
 
 
-
-// // ChildcareCentreDashboard.tsx
-
-// import { useRequests } from "../context/RequestsContext";
-// import { mockEces } from "../data/mockEces";
-// // import { Button } from "@/components/ui/button";
-
-// export default function ChildcareCentreDashboard() {
-//   const { createRequest } = useRequests();
-
-//   // new async wrapper for requests
-//   const handleCreateRequest = async (eceId: string) => {
-//     try {
-//       const req = await createRequest(eceId, {
-//         message: "Need coverage tomorrow at 9AM",
-//         date: "2025-08-28",
-//       });
-//       console.log("Created request:", req);
-//       // later: show toast or update UI list
-//     } catch (err) {
-//       console.error("Failed to create request:", err);
-//     }
-//   };
-
-//   return (
-//     <div className="p-6">
-//       <h1 className="text-xl font-bold mb-4">Childcare Centre Dashboard</h1>
-//       <p className="mb-2">Select an ECE and request them:</p>
-//       <ul className="space-y-2">
-//         {mockEces.map((ece) => (
-//           <li
-//             key={ece.id}
-//             className="flex items-center justify-between bg-gray-100 p-2 rounded"
-//           >
-//             <span>
-//               {ece.fullName} ({ece.available ? "Available" : "Unavailable"})
-//             </span>
-//             {ece.available && (
-//               <button
-//                 onClick={() => handleCreateRequest(ece.id)}
-//                 // size="sm"
-//                 // variant="default"
-//               >
-//                 Request
-//               </button>
-//             )}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-
-
-// Version 3.x
-// import { useAuth } from "../context/AuthContext";
-// import { useRequests } from "../context/RequestsContext";
-
-// export default function ChildcareCentreDashboard() {
-//   const { user } = useAuth();
-//   const { createRequest, getForCentre } = useRequests();
-
-//   if (!user) return null;
-
-//   const myRequests = getForCentre(user.id);
-
-//   async function handleBookRequest(eceId: string) {
-//     try {
-//       await createRequest(eceId, {
-//         message: "Requesting to book your services",
-//         date: new Date().toISOString(),
-//       });
-//     } catch (e: any) {
-//       alert(e?.message ?? "Failed to create request");
-//     }
-//   }
-
-//   return (
-//     <div>
-//       <h2>Childcare Centre Dashboard</h2>
-//       <button onClick={() => handleBookRequest("1")}>
-//         Book Alice Johnson
-//       </button>
-
-//       <h3>My Requests</h3>
-//       <ul>
-//         {myRequests.map((req) => (
-//           <li key={req.id}>
-//             To: {req.eceName ?? req.eceId} — Status: {req.status}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-
-
-// Version 2.x
+// // src/pages/Childcare-Centre-Dashboard.tsx
 // import { useEffect, useState } from "react";
 // import { useAuth } from "../context/AuthContext";
 // import { useRequests } from "../context/RequestsContext";
+// import type { EceRequest } from "../types/Request";
 
 // export default function ChildcareCentreDashboard() {
 //   const { user } = useAuth();
-//   const { createRequest, getForCentre } = useRequests();
+//   const { getForCentre, create, respond, cancel } = useRequests();
 
-//   const [myRequests, setMyRequests] = useState<any[]>([]);
-//   const [error, setError] = useState<string | null>(null);
-//   const [creatingId, setCreatingId] = useState<string | null>(null);
+//   const [filter, setFilter] = useState<"All" | "Pending" | "Accepted" | "Declined" | "Cancelled">("All");
+//   const [requests, setRequests] = useState<EceRequest[]>([]);
 
+//   // keep requests up to date for this centre
 //   useEffect(() => {
 //     if (user) {
-//       setMyRequests(getForCentre(user.id));
+//       setRequests(getForCentre(user.id));
 //     }
 //   }, [user, getForCentre]);
 
-//   async function handleBookRequest(eceId: string) {
-//     if (!user) return;
+//   // filtered list based on selected status
+//   const filteredRequests =
+//     filter === "All" ? requests : requests.filter((req) => req.status === filter);
+
+//   const handleCreateRequest = async () => {
 //     try {
-//       setCreatingId(eceId);
-//       const created = await createRequest(eceId, {
-//         message: "Requesting to book your services",
-//         date: new Date().toISOString(),
+//       await create({
+//         eceId: "ece_1", // temporary hardcoded until Step 2
+//         message: "Hello ECE!",
+//         date: new Date().toISOString().split("T")[0],
 //       });
-//       setMyRequests((prev) => [created, ...prev]);
-//     } catch (e: any) {
-//       setError(e?.message ?? "Failed to create request");
-//     } finally {
-//       setCreatingId(null);
+//     } catch (err) {
+//       console.error("Error creating request:", err);
 //     }
-//   }
+//   };
+
+//   const handleRespond = async (id: string, status: "Accepted" | "Declined") => {
+//     try {
+//       await respond(id, status);
+//     } catch (err) {
+//       console.error("Error responding to request:", err);
+//     }
+//   };
+
+//   const handleCancel = async (id: string) => {
+//     try {
+//       await cancel(id);
+//     } catch (err) {
+//       console.error("Error cancelling request:", err);
+//     }
+//   };
 
 //   return (
 //     <div>
-//       <h2>Childcare Centre Dashboard</h2>
-//       {error && <p className="error">{error}</p>}
-//       {/* Render list of ECEs with Book buttons */}
-//       {/* Example: */}
-//       <button onClick={() => handleBookRequest("ece-123")}>
-//         {creatingId === "ece-123" ? "Booking..." : "Book ECE #123"}
-//       </button>
+//       <h1>Childcare Centre Dashboard</h1>
 
-//       <h3>My Requests</h3>
+//       <button onClick={handleCreateRequest}>Create Test Request</button>
+
+//       <div style={{ marginTop: "1rem" }}>
+//         <label>
+//           Filter Requests:{" "}
+//           <select value={filter} onChange={(e) => setFilter(e.target.value as any)}>
+//             <option value="All">All</option>
+//             <option value="Pending">Pending</option>
+//             <option value="Accepted">Accepted</option>
+//             <option value="Declined">Declined</option>
+//             <option value="Cancelled">Cancelled</option>
+//           </select>
+//         </label>
+//       </div>
+
+//       <h2 style={{ marginTop: "1rem" }}>Requests ({filter})</h2>
 //       <ul>
-//         {myRequests.map((req) => (
+//         {filteredRequests.map((req) => (
 //           <li key={req.id}>
-//             To: {req.eceId} — Status: {req.status}
+//             <strong>{req.eceName ?? req.eceId}</strong>: {req.message} — Status: {req.status}
+//             {req.status === "Pending" && (
+//               <>
+//                 <button onClick={() => handleRespond(req.id, "Accepted")}>Accept</button>
+//                 <button onClick={() => handleRespond(req.id, "Declined")}>Decline</button>
+//               </>
+//             )}
+//             <button onClick={() => handleCancel(req.id)}>Cancel</button>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+
+
+// // src/pages/Childcare-Centre-Dashboard.tsx
+// import { useEffect, useState } from "react";
+// import { useRequests } from "../context/RequestsContext";
+// import type { EceRequest } from "../types/Request";
+
+// export default function ChildcareCentreDashboard() {
+//   const { requests, create, getByStatus, respond, cancel } = useRequests();
+//   const [pendingRequests, setPendingRequests] = useState<EceRequest[]>([]);
+
+//   useEffect(() => {
+//     setPendingRequests(getByStatus("Pending"));
+//   }, [requests, getByStatus]);
+
+//   const handleCreateRequest = async () => {
+//     try {
+//       await create({
+//         eceId: "ece_1", // example ID
+//         message: "Hello ECE!",
+//         date: "2025-09-26",
+//       });
+//     } catch (err) {
+//       console.error("Error creating request:", err);
+//     }
+//   };
+
+//   const handleRespond = async (id: string, status: "Accepted" | "Declined") => {
+//     try {
+//       await respond(id, status);
+//     } catch (err) {
+//       console.error("Error responding to request:", err);
+//     }
+//   };
+
+//   const handleCancel = async (id: string) => {
+//     try {
+//       await cancel(id);
+//     } catch (err) {
+//       console.error("Error cancelling request:", err);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1>Childcare Centre Dashboard</h1>
+
+//       <button onClick={handleCreateRequest}>Create Test Request</button>
+
+//       <h2>Pending Requests</h2>
+//       <ul>
+//         {pendingRequests.map((req) => (
+//           <li key={req.id} style={{ marginBottom: "1rem" }}>
+//             <div>
+//               <strong>{req.eceName ?? req.eceId}</strong>
+//               {" — "}
+//               <span>Status: {req.status}</span>
+//             </div>
+//             <div>Message: {req.message}</div>
+//             {req.date && <div>Date: {req.date}</div>}
+//             <div>
+//               <button onClick={() => handleRespond(req.id, "Accepted")}>
+//                 Accept
+//               </button>
+//               <button onClick={() => handleRespond(req.id, "Declined")}>
+//                 Decline
+//               </button>
+//               <button onClick={() => handleCancel(req.id)}>Cancel</button>
+//             </div>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+
+
+// // src/pages/Childcare-Centre-Dashboard.tsx
+// import { useEffect, useState } from "react";
+// import { useRequests } from "../context/RequestsContext";
+// import type { EceRequest } from "../types/Request";
+
+// export default function ChildcareCentreDashboard() {
+//   const { requests, create, getByStatus, respond, cancel } = useRequests();
+//   const [pendingRequests, setPendingRequests] = useState<EceRequest[]>([]);
+
+//   // keep pending requests up to date
+//   useEffect(() => {
+//     setPendingRequests(getByStatus("Pending"));
+//   }, [requests, getByStatus]);
+
+//   const handleCreateRequest = async () => {
+//     try {
+//       await create({
+//         eceId: "ece-id-123",
+//         message: "Hello ECE!",
+//         date: "2025-09-26",
+//       });
+//     } catch (err) {
+//       console.error("Error creating request:", err);
+//     }
+//   };
+
+//   const handleRespond = async (id: string, status: "Accepted" | "Declined") => {
+//     try {
+//       await respond(id, status);
+//     } catch (err) {
+//       console.error("Error responding to request:", err);
+//     }
+//   };
+
+//   const handleCancel = async (id: string) => {
+//     try {
+//       await cancel(id);
+//     } catch (err) {
+//       console.error("Error cancelling request:", err);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1>Childcare Centre Dashboard</h1>
+
+//       <button onClick={handleCreateRequest}>Create Test Request</button>
+
+//       <h2>Pending Requests</h2>
+//       <ul>
+//         {pendingRequests.map((req) => (
+//           <li key={req.id}>
+//             <strong>{req.eceName ?? req.eceId}</strong>: {req.message}
+//             <button onClick={() => handleRespond(req.id, "Accepted")}>
+//               Accept
+//             </button>
+//             <button onClick={() => handleRespond(req.id, "Declined")}>
+//               Decline
+//             </button>
+//             <button onClick={() => handleCancel(req.id)}>Cancel</button>
 //           </li>
 //         ))}
 //       </ul>

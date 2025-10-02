@@ -110,6 +110,12 @@ export async function registerUser(user: any): Promise<boolean> {
     return false;
   }
 }
+
+
+
+
+
+
 // Old version below for reference
 
 

@@ -1,160 +1,162 @@
-
-// src/context/RequestsContext.tsx
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+// // src/context/RequestsContext.tsx
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import type { EceRequest, RequestStatus } from "../types/Request";
 import { useAuth } from "./AuthContext";
-// import { mockEces } from "../data/mockEces"; // import ECEs so we can resolve their names
-import { getAllEces } from "../services/eces";
-
-const STORAGE_KEY = "requests";
+import {
+  getRequestsForCentre,
+  getRequestsForEce,
+  createRequest,
+  respondToRequest,
+} from "../services/requests";
 
 type RequestsContextType = {
   requests: EceRequest[];
-  createRequest: (
-    eceId: string,
-    opts?: { message?: string; date?: string }
-  ) => Promise<EceRequest>;
-  cancelRequest: (id: string) => void;
-  respond: (
-    requestId: string,
-    status: Exclude<RequestStatus, "Pending">
-  ) => void;
+  refresh: () => Promise<void>;
   getForEce: (eceId: string) => EceRequest[];
   getForCentre: (centreId: string) => EceRequest[];
+  create: (params: { eceId: string; message?: string; date?: string }) => Promise<void>;
+  respond: (requestId: string, action: RequestStatus) => Promise<void>;
+  cancel: (requestId: string) => Promise<void>;
+  getByStatus: (status: RequestStatus) => EceRequest[];
 };
 
-
-// Initial RequestsContextType
-// type RequestsContextType = {
-//   requests: EceRequest[];
-//   createRequest: (
-//     eceId: string, 
-//     opts?: { message?: string; date?: string }
-//   ) => Promise<EceRequest>;
-//   sendRequest: (request: EceRequest) => void;
-//   cancelRequest: (id: string) => void;
-//   respond: (requestId: string, status: Exclude<RequestStatus, "Pending">) => void;
-//   getForEce: (eceId: string) => EceRequest[];
-//   getForCentre: (centreId: string) => EceRequest[];
-// };
-
-const RequestsContext = createContext<RequestsContextType | undefined>(undefined);
+const RequestsContext = createContext<RequestsContextType | undefined>(
+  undefined
+);
 
 export function RequestsProvider({ children }: { children: React.ReactNode }) {
-  const [requests, setRequests] = useState<EceRequest[]>([]);
   const { user } = useAuth();
+  const [requests, setRequests] = useState<EceRequest[]>([]);
 
-  // Load requests from localStorage once on mount
-  useEffect(() => {
+  // Fetch fresh requests for the logged-in user
+  const refresh = useCallback(async () => {
+    if (!user) {
+      setRequests([]);
+      return;
+    }
+
     try {
-      const json = localStorage.getItem(STORAGE_KEY);
-      if (json) setRequests(JSON.parse(json));
-    } catch {
+      let data: EceRequest[] = [];
+
+      if (user.role === "Childcare Centre") {
+        data = await getRequestsForCentre(user.id);
+      } else if (user.role === "ECE") {
+        data = await getRequestsForEce(user.id);
+      }
+
+      setRequests(data);
+    } catch (err) {
+      console.error("Failed to refresh requests:", err);
       setRequests([]);
     }
-  }, []);
+  }, [user]);
 
-  // Persist to localStorage whenever requests change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
-  }, [requests]);
+    refresh();
+  }, [refresh]);
 
-  // Add a request (centralized path + duplicate protection)
-  const sendRequest = (newRequest: EceRequest) => {
-    setRequests((prev) => {
-      const duplicate = prev.find(
-        (r) =>
-          r.eceId === newRequest.eceId &&
-          r.centreId === newRequest.centreId &&
-          r.status === "Pending" &&
-          // If a date is given, same-date + same-centre + same-ece counts as duplicate
-          (!newRequest.date || r.date === newRequest.date)
-      );
-      if (duplicate) return prev;
-      return [newRequest, ...prev];
-    });
-  };
+  // --- Sync Getters (no Promises) ---
+  const getForEce = (eceId: string): EceRequest[] =>
+    requests.filter((r) => r.eceId === eceId);
 
-  // Convenience helper for Centres to create a request
-  const createRequest = async (
-    eceId: string,
-    opts?: { message?: string; date?: string }
-  ): Promise<EceRequest> => {
+  const getForCentre = (centreId: string): EceRequest[] =>
+    requests.filter((r) => r.centreId === centreId);
+
+  const getByStatus = (status: RequestStatus): EceRequest[] =>
+    requests.filter((r) => r.status === status);
+
+  // --- Mutations ---
+  const create = async (params: { eceId: string; message?: string; date?: string }) => {
     if (!user || user.role !== "Childcare Centre") {
       throw new Error("Only Childcare Centre users can create requests.");
     }
 
-    const id =
-      (typeof crypto !== "undefined" &&
-        "randomUUID" in crypto &&
-        crypto.randomUUID()) ||
-      `req_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-
-    const eces = await getAllEces(); // Fetch ECEs from the service
-    const ece = eces.find((e) => e.id === eceId);
-
-    // Original mock data approach:
-    // Look up ECE name from mockEces so we can display names directly
-    // const ece = mockEces.find((e) => e.id === eceId);
-
-    const newReq: EceRequest = {
-      id,
-      eceId,
-      centreId: user.id, // Centre creating the request
+    const tempRequest: EceRequest = {
+      id: crypto.randomUUID?.() ?? `req_${Date.now()}_${Math.random()}`,
+      centreId: user.id,
+      eceId: params.eceId,
       status: "Pending",
       createdAt: new Date().toISOString(),
-      updatedAt: undefined,
-      message: opts?.message,
-      date: opts?.date,
-
-      // Denormalized display fields (for friendlier dashboards)
-      centreName: user.fullName,
-      eceName: ece?.fullName,
-      timestamp: new Date().toISOString(), // alias for createdAt
+      updatedAt: new Date().toISOString(),
+      message: params.message,
+      date: params.date,
     };
 
-    sendRequest(newReq);
-    return newReq;
+    setRequests((prev) => [tempRequest, ...prev]);
+
+    try {
+      await createRequest({
+        centreId: user.id,
+        eceId: params.eceId,
+        message: params.message,
+        date: params.date,
+      });
+      await refresh();
+    } catch (err) {
+      console.error("Failed to create request:", err);
+      setRequests((prev) => prev.filter((r) => r.id !== tempRequest.id));
+    }
   };
 
-  // ECE or Centre responds (Accept/Decline/Cancelled/Expired)
-  const respond = (requestId: string, status: Exclude<RequestStatus, "Pending">) => {
+  const respond = async (requestId: string, action: RequestStatus) => {
     setRequests((prev) =>
       prev.map((r) =>
-        r.id === requestId ? { ...r, status, updatedAt: new Date().toISOString() } : r
+        r.id === requestId
+          ? { ...r, status: action, updatedAt: new Date().toISOString() }
+          : r
       )
     );
+
+    try {
+      await respondToRequest(requestId, action as Exclude<RequestStatus, "Pending">);
+    } catch (err) {
+      console.error("Failed to respond to request:", err);
+      await refresh();
+    }
   };
 
-  // Centre cancels its own request
-  const cancelRequest = (id: string) => {
+  const cancel = async (requestId: string) => {
     setRequests((prev) =>
       prev.map((r) =>
-        r.id === id ? { ...r, status: "Cancelled", updatedAt: new Date().toISOString() } : r
+        r.id === requestId
+          ? { ...r, status: "Cancelled", updatedAt: new Date().toISOString() }
+          : r
       )
     );
-  };
 
-  const getForEce = (eceId: string) => requests.filter((r) => r.eceId === eceId);
-  const getForCentre = (centreId: string) => requests.filter((r) => r.centreId === centreId);
+    try {
+      await respondToRequest(requestId, "Cancelled");
+    } catch (err) {
+      console.error("Failed to cancel request:", err);
+      await refresh();
+    }
+  };
 
   const value = useMemo(
     () => ({
       requests,
-      createRequest,
-      // sendRequest,
-      cancelRequest,
-      respond,
+      refresh,
       getForEce,
       getForCentre,
+      create,
+      respond,
+      cancel,
+      getByStatus,
     }),
-    [requests]
+    [requests, refresh]
   );
 
   return <RequestsContext.Provider value={value}>{children}</RequestsContext.Provider>;
 }
 
-export function useRequests() {
+export function useRequests(): RequestsContextType {
   const ctx = useContext(RequestsContext);
   if (!ctx) throw new Error("useRequests must be used within RequestsProvider");
   return ctx;
