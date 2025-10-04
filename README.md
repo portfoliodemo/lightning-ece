@@ -7,7 +7,7 @@
 
 ## 🧠 Overview
 
-**Lightning-ECE** is a full-stack web application (currently frontend-only) that connects daycare owners with certified Early Childhood Educators (ECEs) who are available on short notice. This platform addresses real-world staffing challenges through a responsive, role-based system:
+**Lightning-ECE** is a full-stack web application that connects daycare owners with certified Early Childhood Educators (ECEs) who are available on short notice. This platform addresses real-world staffing challenges through a responsive, role-based system:
 
 * 👩‍🏫 **Daycare Owners** can browse and book qualified, verified ECEs.
 * 📆 **ECEs** can manage their availability and accept or decline job offers.
@@ -20,7 +20,6 @@
 * Build a high-quality, maintainable frontend application
 * Showcase best practices in React and TypeScript development
 * Enable growth as a full-stack developer through applied learning
-* Plan for backend integration with MySQL or similar database solutions
 
 ---
 
@@ -37,8 +36,7 @@
 ### Backend (Planned)
 
 * Node.js + Express (TypeScript)
-* MySQL or PostgreSQL (to replace localStorage)
-* Prisma ORM (planned for database interaction)
+* MySQL or PostgreSQL
 
 ### Tooling & Deployment
 
@@ -61,7 +59,6 @@
 * Role-based authentication using React Context and localStorage
 * ECE profile and availability status
 * Booking request system with accept/decline logic
-* Future plans for backend integration with database storage
 
 ---
 

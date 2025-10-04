@@ -23,6 +23,24 @@
       "name": "Days",
       "email": "days@days.com",
       "password": "days"
+    },
+    {
+      "id": "43ff1ead-d346-4734-87dc-a3cbaa218724",
+      "name": "Little Feet",
+      "email": "little@feet.com",
+      "password": "pw123"
+    },
+    {
+      "id": "1e430fda-c407-410e-a927-0d3e058892fa",
+      "name": "Lil Feet",
+      "email": "admin@lilfeet.com",
+      "password": "pw123"
+    },
+    {
+      "id": "ded94fbc-0b24-422f-a11e-ce33c0f979e9",
+      "name": "Little Paws",
+      "email": "paws@paws.com",
+      "password": "pw123"
     }
   ],
   "eces": [
@@ -45,9 +63,25 @@
     {
       "id": "ece_3",
       "firstName": "Dani",
-      "lastName": "Jeep",
-      "fullName": "Dani Jeep",
-      "email": "dani@example.com",
+      "lastName": "Lukey",
+      "fullName": "Dani Lukey",
+      "email": "dani@danidaycare.com",
+      "password": "pw123"
+    },
+    {
+      "id": "a5c43835-bc55-4185-93dd-5e80a125fa47",
+      "fullName": "Daniela M",
+      "firstName": "Daniela",
+      "lastName": "M",
+      "email": "dani@m.com",
+      "password": "pw123"
+    },
+    {
+      "id": "138287f8-ef23-416c-9aad-baf8c0cfa41a",
+      "fullName": "Dani M",
+      "firstName": "Dani",
+      "lastName": "M",
+      "email": "dani@dani.com",
       "password": "pw123"
     }
   ],
@@ -110,9 +144,9 @@
       "id": "0e667ab6-bdd6-47ab-b28a-9184d0b62201",
       "centreId": "centre_1",
       "eceId": "ece_1",
-      "status": "Pending",
+      "status": "Declined",
       "createdAt": "2025-10-02T16:09:18.216Z",
-      "updatedAt": "2025-10-02T16:09:18.216Z",
+      "updatedAt": "2025-10-02T17:14:51.363Z",
       "message": "Request from Bright Start Childcare",
       "date": "2025-10-02"
     },
@@ -130,9 +164,9 @@
       "id": "afb37fdd-bf98-480f-8085-add9ec4a984d",
       "centreId": "centre_1",
       "eceId": "ece_3",
-      "status": "Pending",
+      "status": "Declined",
       "createdAt": "2025-10-02T16:09:30.441Z",
-      "updatedAt": "2025-10-02T16:09:30.441Z",
+      "updatedAt": "2025-10-02T16:18:25.560Z",
       "message": "Request from Bright Start Childcare",
       "date": "2025-10-02"
     },
@@ -140,11 +174,67 @@
       "id": "7de8c41c-1e31-4d9d-90f2-8f0bfd021226",
       "centreId": "centre_1",
       "eceId": "ece_3",
-      "status": "Pending",
+      "status": "Declined",
       "createdAt": "2025-10-02T16:11:20.847Z",
-      "updatedAt": "2025-10-02T16:11:20.847Z",
+      "updatedAt": "2025-10-02T16:18:27.474Z",
       "message": "Request from Bright Start Childcare",
       "date": "2025-10-02"
+    },
+    {
+      "id": "3dab3b0f-a29b-4b7c-93d1-16b4c97e10eb",
+      "centreId": "centre_1",
+      "eceId": "ece_3",
+      "status": "Cancelled",
+      "createdAt": "2025-10-02T17:20:18.401Z",
+      "updatedAt": "2025-10-02T17:42:04.290Z",
+      "message": "We'd love to have you on Monday! ",
+      "date": "2025-10-06"
+    },
+    {
+      "id": "bf40764b-a7cc-494a-932a-d15806df9bed",
+      "centreId": "centre_1",
+      "eceId": "ece_3",
+      "status": "Pending",
+      "createdAt": "2025-10-02T17:44:20.753Z",
+      "updatedAt": "2025-10-02T17:44:20.753Z",
+      "message": "Request from Bright Start Childcare",
+      "date": "2025-10-10"
+    },
+    {
+      "id": "73f1c23f-292c-4285-8bbc-f6858a2c8552",
+      "centreId": "43ff1ead-d346-4734-87dc-a3cbaa218724",
+      "eceId": "a5c43835-bc55-4185-93dd-5e80a125fa47",
+      "status": "Accepted",
+      "createdAt": "2025-10-02T18:19:09.263Z",
+      "updatedAt": "2025-10-02T18:19:38.553Z",
+      "message": "Request from Little Feet",
+      "date": "2025-10-02",
+      "startTime": "09:00",
+      "endTime": "17:00"
+    },
+    {
+      "id": "452de048-8344-4456-a2ff-10c3dd9eb5e4",
+      "centreId": "ded94fbc-0b24-422f-a11e-ce33c0f979e9",
+      "eceId": "138287f8-ef23-416c-9aad-baf8c0cfa41a",
+      "status": "Pending",
+      "createdAt": "2025-10-02T18:25:34.317Z",
+      "updatedAt": "2025-10-02T18:25:34.317Z",
+      "message": "Request from Little Paws, hi babes",
+      "date": "2025-10-02",
+      "startTime": "09:00",
+      "endTime": "17:00"
+    },
+    {
+      "id": "7c3977db-5cb1-4890-88ef-522496c404d9",
+      "centreId": "centre_1",
+      "eceId": "138287f8-ef23-416c-9aad-baf8c0cfa41a",
+      "status": "Pending",
+      "createdAt": "2025-10-03T02:44:06.663Z",
+      "updatedAt": "2025-10-03T02:44:06.663Z",
+      "message": "Can you work tomorrow morning at 9am?",
+      "date": "2025-10-03",
+      "startTime": "09:00",
+      "endTime": "17:00"
     }
   ]
 }
